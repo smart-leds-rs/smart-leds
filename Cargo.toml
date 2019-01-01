@@ -1,0 +1,8 @@
+[package]
+name = "smart-leds"
+version = "0.1.0"
+authors = ["David Sawatzke <david-sawatzke@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+smart-leds-trait = {git = "https://github.com/smart-leds-rs/smart-leds-trait"}
