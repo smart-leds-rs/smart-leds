@@ -1,4 +1,7 @@
 #![no_std]
+
+pub mod colors;
+
 pub use smart_leds_trait::*;
 
 /// An iterator that provides brightness reduction
