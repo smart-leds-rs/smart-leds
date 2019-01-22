@@ -18,9 +18,9 @@ where
 
     fn next(&mut self) -> Option<Color> {
         self.iter.next().map(|a| Color {
-            r: (a.r as u16 * self.brightness as u16 / 256) as u8,
-            g: (a.g as u16 * self.brightness as u16 / 256) as u8,
-            b: (a.b as u16 * self.brightness as u16 / 256) as u8,
+            r: (a.r as u16 * (self.brightness as u16 + 1) / 256) as u8,
+            g: (a.g as u16 * (self.brightness as u16 + 1) / 256) as u8,
+            b: (a.b as u16 * (self.brightness as u16 + 1) / 256) as u8,
         })
     }
 }
