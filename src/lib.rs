@@ -1,6 +1,7 @@
 #![no_std]
 
 pub mod colors;
+pub mod hsv;
 
 pub use smart_leds_trait::*;
 
