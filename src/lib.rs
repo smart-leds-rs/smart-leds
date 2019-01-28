@@ -34,7 +34,12 @@ where
     Brightness { iter, brightness }
 }
 
-/// An iterator that provides gamma correction
+/// An iterator that provides gamma correction.
+/// Makes the colour distribution non-linear, to match your eyes' perception 
+/// In other words, makes orange look orange.
+/// If using in combination with a brightness reduction, apply the gamma
+/// correction first, then the brightness reduction
+/// ie: brightness(gamma(data.iter().cloned()), 32)
 pub struct Gamma<I> {
     iter: I,
 }
