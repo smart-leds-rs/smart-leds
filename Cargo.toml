@@ -1,8 +1,19 @@
 [package]
 name = "smart-leds"
 version = "0.1.0"
-authors = ["David Sawatzke <david-sawatzke@users.noreply.github.com>"]
+authors = ["David Sawatzke <david-sawatzke@users.noreply.github.com>",
+           "Paul Sajna <sajattack@gmail.com>"]
 edition = "2018"
+categories = [
+    "embedded",
+    "no-std",
+    "hardware-support"]
+keywords = ["smart-leds"]
+description = "A crate to use smart-leds device drivers"
+documentation = "https://docs.rs/crate/smart-leds"
+license = "MIT OR Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/smart-leds-rs/smart-leds"
 
 [dependencies]
-smart-leds-trait = {git = "https://github.com/smart-leds-rs/smart-leds-trait"}
+smart-leds-trait = "0.1"
