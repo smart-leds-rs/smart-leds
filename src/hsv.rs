@@ -9,7 +9,7 @@ pub struct Hsv {
 
 const HSV_SECTION_3: u8 = 0x40;
 // Mostly inspired by https://github.com/FastLED/FastLED/blob/a50d96d733b5c6c9b95b6e027fd2e760823feae8/hsv2rgb.cpp#L71
-pub fn hsv2rgb(hsv: Hsv) -> Color {
+pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
     let value = hsv.val;
     let saturation = hsv.sat;
 
@@ -27,7 +27,7 @@ pub fn hsv2rgb(hsv: Hsv) -> Color {
     let rampup = offset;
     let rampdown = HSV_SECTION_3 - 1 - offset;
 
-    // Color-amplitude-scaled down versions of rampdown/rampup
+    // RGB8-amplitude-scaled down versions of rampdown/rampup
     let rampup = ((rampup as u16 * color_amplitude as u16) / 64) as u8;
     let rampdown = ((rampdown as u16 * color_amplitude as u16) / 64) as u8;
 
@@ -37,17 +37,17 @@ pub fn hsv2rgb(hsv: Hsv) -> Color {
 
     // Figure out where in the color wheel we are
     match section {
-        0 => Color {
+        0 => RGB8 {
             r: rampdown,
             g: rampup,
             b: brightness_floor,
         },
-        1 => Color {
+        1 => RGB8 {
             r: rampup,
             g: brightness_floor,
             b: rampdown,
         },
-        2 => Color {
+        2 => RGB8 {
             r: brightness_floor,
             g: rampdown,
             b: rampup,
