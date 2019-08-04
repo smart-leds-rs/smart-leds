@@ -47,11 +47,11 @@ pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
             g: rampdown_adj_with_floor,
             b: rampup_adj_with_floor,
         },
-        2 | 3 => RGB8 {
+        2 => RGB8 {
             r: rampup_adj_with_floor,
             g: brightness_floor,
             b: rampdown_adj_with_floor,
         },
-        _ => unreachable!("An 8 bit value divided by 0x40 can't be more than 3.9")
+        _ => panic!("Hue value must be between 0 and 192")
     }
 }
