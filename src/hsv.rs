@@ -28,31 +28,30 @@ pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
     let rampdown = HSV_SECTION_3 - 1 - offset;
 
     // RGB8-amplitude-scaled down versions of rampdown/rampup
-    let rampup = ((rampup as u16 * color_amplitude as u16) / 64) as u8;
-    let rampdown = ((rampdown as u16 * color_amplitude as u16) / 64) as u8;
+    let rampup_amp_adj = ((rampup as u16 * color_amplitude as u16) / 64) as u8;
+    let rampdown_amp_adj = ((rampdown as u16 * color_amplitude as u16) / 64) as u8;
 
     // with brightness floor
-    let rampup = rampup + brightness_floor;
-    let rampdown = rampdown + brightness_floor;
+    let rampup_adj_with_floor = rampup_amp_adj + brightness_floor;
+    let rampdown_adj_with_floor = rampdown_amp_adj+ brightness_floor;
 
     // Figure out where in the color wheel we are
     match section {
         0 => RGB8 {
-            r: rampdown,
-            g: rampup,
+            r: rampdown_adj_with_floor,
+            g: rampup_adj_with_floor,
             b: brightness_floor,
         },
         1 => RGB8 {
-            r: rampup,
-            g: brightness_floor,
-            b: rampdown,
+            r: brightness_floor,
+            g: rampdown_adj_with_floor,
+            b: rampup_adj_with_floor,
         },
         2 => RGB8 {
-            r: brightness_floor,
-            g: rampdown,
-            b: rampup,
+            r: rampup_adj_with_floor,
+            g: brightness_floor,
+            b: rampdown_adj_with_floor,
         },
-        // An 8 bit value modulo 0x40 can't be more than 2
-        _ => unreachable!(),
+        _ => panic!("Hue value must be between 0 and 192")
     }
 }
