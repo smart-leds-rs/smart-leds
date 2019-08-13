@@ -10,7 +10,7 @@ pub struct Hsv {
 const HSV_SECTION_3: u8 = 0x40;
 // Mostly inspired by https://github.com/FastLED/FastLED/blob/a50d96d733b5c6c9b95b6e027fd2e760823feae8/hsv2rgb.cpp#L71
 pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
-    let value = hsv.val;
+    let value = ((hsv.val as u16 * 192) / 256) as u8;
     let saturation = hsv.sat;
 
     // The brightness value is the minimum of r, g & b
@@ -52,6 +52,6 @@ pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
             g: brightness_floor,
             b: rampdown_adj_with_floor,
         },
-        _ => panic!("Hue value must be between 0 and 192")
+        _ => unreachable!(),
     }
 }
