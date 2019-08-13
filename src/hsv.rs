@@ -8,14 +8,15 @@ pub struct Hsv {
 }
 
 const HSV_SECTION_3: u8 = 0x40;
+
 // Mostly inspired by https://github.com/FastLED/FastLED/blob/a50d96d733b5c6c9b95b6e027fd2e760823feae8/hsv2rgb.cpp#L71
 pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
-    let value = ((hsv.val as u16 * 192) / 256) as u8;
+    let value = ((u16::from(hsv.val) * 192) / 256) as u8;
     let saturation = hsv.sat;
 
     // The brightness value is the minimum of r, g & b
     let invsat = 255 - saturation;
-    let brightness_floor = ((value as u16 * invsat as u16) / 256) as u8;
+    let brightness_floor = ((u16::from(value) * u16::from(invsat)) / 256) as u8;
 
     // The maximum amount that will be added to r, g or b on top of brightness_floor
     let color_amplitude = value - brightness_floor;
@@ -28,12 +29,12 @@ pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
     let rampdown = HSV_SECTION_3 - 1 - offset;
 
     // RGB8-amplitude-scaled down versions of rampdown/rampup
-    let rampup_amp_adj = ((rampup as u16 * color_amplitude as u16) / 64) as u8;
-    let rampdown_amp_adj = ((rampdown as u16 * color_amplitude as u16) / 64) as u8;
+    let rampup_amp_adj = ((u16::from(rampup) * u16::from(color_amplitude)) / 64) as u8;
+    let rampdown_amp_adj = ((u16::from(rampdown) as u16 * u16::from(color_amplitude)) / 64) as u8;
 
     // with brightness floor
     let rampup_adj_with_floor = rampup_amp_adj + brightness_floor;
-    let rampdown_adj_with_floor = rampdown_amp_adj+ brightness_floor;
+    let rampdown_adj_with_floor = rampdown_amp_adj + brightness_floor;
 
     // Figure out where in the color wheel we are
     match section {
