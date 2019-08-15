@@ -7,52 +7,31 @@ pub struct Hsv {
     pub val: u8,
 }
 
-const HSV_SECTION_3: u8 = 0x40;
-// Mostly inspired by https://github.com/FastLED/FastLED/blob/a50d96d733b5c6c9b95b6e027fd2e760823feae8/hsv2rgb.cpp#L71
+/// Converts a hsv value into RGB values. Because the hsv values are integers, the precision of the
+/// resulting RGB value is limited to +- 4
+/// Example:
+/// ```
+/// use smart_leds::hsv::{hsv2rgb, Hsv};
+/// let hsv = Hsv{hue: 89, sat: 230, val: 42};
+/// let conv_rgb = hsv2rgb(hsv);
+/// // will return RGB { r: 4, g: 41, b: 8},
+/// ```
 pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
-    let value = hsv.val;
-    let saturation = hsv.sat;
+    let v: u16 = hsv.val as u16;
+    let s: u16 = hsv.sat as u16;
+    let f: u16 = (hsv.hue as u16 * 2 % 85) * 3; // relative interval
 
-    // The brightness value is the minimum of r, g & b
-    let invsat = 255 - saturation;
-    let brightness_floor = ((value as u16 * invsat as u16) / 256) as u8;
-
-    // The maximum amount that will be added to r, g or b on top of brightness_floor
-    let color_amplitude = value - brightness_floor;
-
-    // Figure out in which section of the hue wheel we're in and where we are
-    // in that section
-    let section = hsv.hue / HSV_SECTION_3;
-    let offset = hsv.hue % HSV_SECTION_3;
-    let rampup = offset;
-    let rampdown = HSV_SECTION_3 - 1 - offset;
-
-    // RGB8-amplitude-scaled down versions of rampdown/rampup
-    let rampup_amp_adj = ((rampup as u16 * color_amplitude as u16) / 64) as u8;
-    let rampdown_amp_adj = ((rampdown as u16 * color_amplitude as u16) / 64) as u8;
-
-    // with brightness floor
-    let rampup_adj_with_floor = rampup_amp_adj + brightness_floor;
-    let rampdown_adj_with_floor = rampdown_amp_adj+ brightness_floor;
-
-    // Figure out where in the color wheel we are
-    match section {
-        0 => RGB8 {
-            r: rampdown_adj_with_floor,
-            g: rampup_adj_with_floor,
-            b: brightness_floor,
-        },
-        1 => RGB8 {
-            r: brightness_floor,
-            g: rampdown_adj_with_floor,
-            b: rampup_adj_with_floor,
-        },
-        2 => RGB8 {
-            r: rampup_adj_with_floor,
-            g: brightness_floor,
-            b: rampdown_adj_with_floor,
-        },
-        _ => panic!("Hue value must be between 0 and 192")
+    let p: u16 = v * (255 - s) / 255;
+    let q: u16 = v * (255 - (s * f) / 255) / 255;
+    let t: u16 = v * (255 - (s * (255 - f)) / 255) / 255;
+    match hsv.hue {
+           0..=42 => RGB{r: v as u8, g: t as u8, b: p as u8},
+          43..=84 => RGB{r: q as u8, g: v as u8, b: p as u8},
+         85..=127 => RGB{r: p as u8, g: v as u8, b: t as u8},
+        128..=169 => RGB{r: p as u8, g: q as u8, b: v as u8},
+        170..=212 => RGB{r: t as u8, g: p as u8, b: v as u8},
+        213..=254 => RGB{r: v as u8, g: p as u8, b: q as u8},
+              255 => RGB{r: v as u8, g: t as u8, b: p as u8},
     }
 }
 
