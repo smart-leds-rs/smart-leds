@@ -1,6 +1,6 @@
 [package]
 name = "smart-leds"
-version = "0.2.0"
+version = "0.3.0"
 authors = ["David Sawatzke <david-sawatzke@users.noreply.github.com>",
            "Paul Sajna <sajattack@gmail.com>"]
 edition = "2018"
