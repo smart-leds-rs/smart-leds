@@ -1,4 +1,4 @@
-pub use smart_leds_trait::*;
+use smart_leds_trait::*;
 
 #[derive(Copy, Clone, Default)]
 pub struct Hsv {
