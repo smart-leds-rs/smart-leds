@@ -8,8 +8,12 @@ pub struct Hsv {
 }
 
 /// Converts a hsv value into RGB values. Because the hsv values are integers, the precision of the
-/// resulting RGB value is limited to +- 4
-/// Example:
+/// resulting RGB value is limited to ±4.
+///
+/// NOTE: Since most led protocols & their implementations are very timing
+/// sensitive, it's advisable to do the conversion before `write`-ing.
+///
+/// # Example
 /// ```
 /// use smart_leds::hsv::{hsv2rgb, Hsv};
 /// let hsv = Hsv{hue: 89, sat: 230, val: 42};
