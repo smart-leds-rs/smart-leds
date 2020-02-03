@@ -56,6 +56,8 @@ where
         // to nonlinear gamma-corrected output values
         // (numbers producing the desired effect on the LED;
         // e.g. 36 = half brightness).
+        //
+        // It's generated using the gamma.py script
         const GAMMA8: [u8; 256] = [
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4,
