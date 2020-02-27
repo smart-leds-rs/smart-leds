@@ -1,3 +1,17 @@
+//! # Smart Leds
+//!
+//! Smart leds is a collection of crates to use smart leds on embedded devices with rust.
+//!
+//! Examples of smart leds include the popular WS2812 (also called Neopixel),
+//! APA102 (DotStar) and other leds, which can be individually adressed.
+//!
+//! Other driver crates implement these indivdual interfaces and should be used in
+//! tandem with this crate. This crate provides various convenience utilities
+//! for end users.
+//!
+//! Other crates should depended on the
+//! [smart-leds-trait](https://crates.io/crates/smart-leds-trait) crate, which
+//! (should) experience less breaking changes
 #![no_std]
 
 pub mod colors;
@@ -6,6 +20,9 @@ pub mod hsv;
 pub use smart_leds_trait::*;
 
 /// An iterator that provides brightness reduction
+///
+/// Please be aware that using this after gamma correction the colours doesn't
+/// work right.
 pub struct Brightness<I> {
     iter: I,
     brightness: u8,
