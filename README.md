@@ -6,7 +6,7 @@ are various methods, this crate doesn't implement any specific drivers by
 itself. It has to be coupled with a device driver that implements the
 [smart-leds-trait](https://github.com/smart-leds-rs/smart-leds-trait), like the
 [ws2812-spi](https://github.com/smart-leds-rs/ws2812-spi-rs), the
-[ws2812-nop-samd21](https://github.com/smart-leds-rs/ws2812-nop-samd21) or the
+[ws2812-timer-delay](https://github.com/smart-leds-rs/ws2812-timer-delay-rs) or the
 [apa102-spi](https://github.com/smart-leds-rs/apa102-spi-rs) drivers.
 
 You can see some usage examples in the
