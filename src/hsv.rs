@@ -1,4 +1,4 @@
-pub use smart_leds_trait::*;
+use smart_leds_trait::*;
 
 #[derive(Copy, Clone, Default)]
 pub struct Hsv {
@@ -8,8 +8,12 @@ pub struct Hsv {
 }
 
 /// Converts a hsv value into RGB values. Because the hsv values are integers, the precision of the
-/// resulting RGB value is limited to +- 4
-/// Example:
+/// resulting RGB value is limited to ±4.
+///
+/// NOTE: Since most led protocols & their implementations are very timing
+/// sensitive, it's advisable to do the conversion before `write`-ing.
+///
+/// # Example
 /// ```
 /// use smart_leds::hsv::{hsv2rgb, Hsv};
 /// let hsv = Hsv{hue: 89, sat: 230, val: 42};
@@ -25,13 +29,41 @@ pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
     let q: u16 = v * (255 - (s * f) / 255) / 255;
     let t: u16 = v * (255 - (s * (255 - f)) / 255) / 255;
     match hsv.hue {
-           0..=42 => RGB{r: v as u8, g: t as u8, b: p as u8},
-          43..=84 => RGB{r: q as u8, g: v as u8, b: p as u8},
-         85..=127 => RGB{r: p as u8, g: v as u8, b: t as u8},
-        128..=169 => RGB{r: p as u8, g: q as u8, b: v as u8},
-        170..=212 => RGB{r: t as u8, g: p as u8, b: v as u8},
-        213..=254 => RGB{r: v as u8, g: p as u8, b: q as u8},
-              255 => RGB{r: v as u8, g: t as u8, b: p as u8},
+        0..=42 => RGB {
+            r: v as u8,
+            g: t as u8,
+            b: p as u8,
+        },
+        43..=84 => RGB {
+            r: q as u8,
+            g: v as u8,
+            b: p as u8,
+        },
+        85..=127 => RGB {
+            r: p as u8,
+            g: v as u8,
+            b: t as u8,
+        },
+        128..=169 => RGB {
+            r: p as u8,
+            g: q as u8,
+            b: v as u8,
+        },
+        170..=212 => RGB {
+            r: t as u8,
+            g: p as u8,
+            b: v as u8,
+        },
+        213..=254 => RGB {
+            r: v as u8,
+            g: p as u8,
+            b: q as u8,
+        },
+        255 => RGB {
+            r: v as u8,
+            g: t as u8,
+            b: p as u8,
+        },
     }
 }
 
