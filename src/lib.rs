@@ -28,7 +28,7 @@ pub struct Brightness<I> {
     brightness: u8,
 }
 
-impl<'a, I> Iterator for Brightness<I>
+impl<I> Iterator for Brightness<I>
 where
     I: Iterator<Item = RGB8>,
 {
@@ -61,7 +61,7 @@ pub struct Gamma<I> {
     iter: I,
 }
 
-impl<'a, I> Iterator for Gamma<I>
+impl<I> Iterator for Gamma<I>
 where
     I: Iterator<Item = RGB8>,
 {
