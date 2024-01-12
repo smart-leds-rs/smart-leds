@@ -17,3 +17,6 @@ repository = "https://github.com/smart-leds-rs/smart-leds"
 
 [dependencies]
 smart-leds-trait = "0.2"
+
+[features]
+serde = ["smart-leds-trait/serde"]
