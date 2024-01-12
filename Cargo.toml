@@ -1,9 +1,9 @@
 [package]
 name = "smart-leds"
-version = "0.3.0"
+version = "0.4.0"
 authors = ["David Sawatzke <david-sawatzke@users.noreply.github.com>",
            "Paul Sajna <sajattack@gmail.com>"]
-edition = "2018"
+edition = "2021"
 categories = [
     "embedded",
     "no-std",
@@ -16,7 +16,7 @@ readme = "README.md"
 repository = "https://github.com/smart-leds-rs/smart-leds"
 
 [dependencies]
-smart-leds-trait = "0.2"
+smart-leds-trait = "0.3.0"
 
 [features]
 serde = ["smart-leds-trait/serde"]
