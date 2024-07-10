@@ -159,4 +159,30 @@ mod test {
             assert! {rgb.b == rgb.g};
         }
     }
+
+    #[test]
+    fn test_hsv2rgbw_1() {
+        #[rustfmt::skip]
+        let hsv = [
+            (Hsv{hue:   0, sat: 255, val: 255}, 255),
+            (Hsv{hue:  21, sat:   3, val: 138}, 128),
+            (Hsv{hue:  89, sat: 230, val:  42}, 0),
+        ];
+
+        #[rustfmt::skip]
+        let rgb = [
+            RGBW { r: 255, g: 0, b: 0, a: White(255) },
+            RGBW { r: 137, g: 137, b: 136, a: White(128)},
+            RGBW { r:   4, g:  41, b:   8, a: White(0)},
+        ];
+
+        for i in 0..hsv.len() {
+            let result = hsv2rgbw(hsv[i].0, hsv[i].1);
+
+            assert!(distance(result.r, rgb[i].r) < 4);
+            assert!(distance(result.g, rgb[i].g) < 4);
+            assert!(distance(result.b, rgb[i].b) < 4);
+            assert_eq!(result.a, rgb[i].a);
+        }
+    }
 }
