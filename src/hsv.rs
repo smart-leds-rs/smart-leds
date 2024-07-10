@@ -17,10 +17,10 @@ pub struct Hsv {
 /// ```
 /// use smart_leds::hsv::{hsv2rgb, Hsv};
 /// let hsv = Hsv{hue: 89, sat: 230, val: 42};
-/// let conv_rgb = hsv2rgb(hsv);
+/// let conv_rgb = hsv2rgb(&hsv);
 /// // will return RGB { r: 4, g: 41, b: 8},
 /// ```
-pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
+pub fn hsv2rgb(hsv: &Hsv) -> RGB8 {
     let v: u16 = hsv.val as u16;
     let s: u16 = hsv.sat as u16;
     let f: u16 = (hsv.hue as u16 * 2 % 85) * 3; // relative interval
@@ -73,10 +73,10 @@ pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
 /// ```
 /// use smart_leds::hsv::{hsv2rgbw, Hsv};
 /// let hsv = Hsv{hue: 89, sat: 230, val: 42};
-/// let conv_rgb = hsv2rgbw(hsv, 255);
+/// let conv_rgb = hsv2rgbw(&hsv, 255);
 /// // will return RGBW { r: 4, g: 41, b: 8, a: 255},
 /// ```
-pub fn hsv2rgbw(hsv: Hsv, a: u8) -> RGBW<u8> {
+pub fn hsv2rgbw(hsv: &Hsv, a: u8) -> RGBW<u8> {
     let rgb = hsv2rgb(hsv);
 
     RGBW {
@@ -142,7 +142,7 @@ mod test {
         ];
 
         for i in 0..hsv.len() {
-            let new_hsv = hsv2rgb(hsv[i]);
+            let new_hsv = hsv2rgb(&hsv[i]);
             assert!(distance(new_hsv.r, rgb[i].r) < 4);
             assert!(distance(new_hsv.g, rgb[i].g) < 4);
             assert!(distance(new_hsv.b, rgb[i].b) < 4);
@@ -154,7 +154,7 @@ mod test {
     fn test_hsv2rgb_2() {
         for i in 0..=255 {
             #[rustfmt::skip]
-            let rgb = hsv2rgb(Hsv{hue:  i, sat: 0, val:  42});
+            let rgb = hsv2rgb(&Hsv{hue:  i, sat: 0, val:  42});
             assert! {rgb.r == rgb.b};
             assert! {rgb.b == rgb.g};
         }
@@ -177,7 +177,7 @@ mod test {
         ];
 
         for i in 0..hsv.len() {
-            let result = hsv2rgbw(hsv[i].0, hsv[i].1);
+            let result = hsv2rgbw(&hsv[i].0, hsv[i].1);
 
             assert!(distance(result.r, rgb[i].r) < 4);
             assert!(distance(result.g, rgb[i].g) < 4);
