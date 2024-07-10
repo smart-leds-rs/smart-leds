@@ -67,6 +67,26 @@ pub fn hsv2rgb(hsv: Hsv) -> RGB8 {
     }
 }
 
+/// Converts a hsv value into RGBW values.
+///
+/// # Example
+/// ```
+/// use smart_leds::hsv::{hsv2rgbw, Hsv};
+/// let hsv = Hsv{hue: 89, sat: 230, val: 42};
+/// let conv_rgb = hsv2rgbw(hsv, 255);
+/// // will return RGBW { r: 4, g: 41, b: 8, a: 255},
+/// ```
+pub fn hsv2rgbw(hsv: Hsv, a: u8) -> RGBW<u8> {
+    let rgb = hsv2rgb(hsv);
+
+    RGBW {
+        r: rgb.r,
+        g: rgb.g,
+        b: rgb.b,
+        a: White(a),
+    }
+}
+
 #[cfg(test)]
 mod test {
 
