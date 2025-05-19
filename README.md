@@ -1,6 +1,6 @@
 # Smart-leds
 
-Use various addresable led like the ws2812 (neopixel) or apa102 (dotstar) in
+Use various addressable LEDs like the ws2812 (neopixel) or apa102 (dotstar) in
 rust. As their protocol greatly differs and for some (like the ws2812) there
 are various methods, this crate doesn't implement any specific drivers by
 itself. It has to be coupled with a device driver that implements the
